@@ -7,3 +7,5 @@ data/
 .pm2/
 .ssh/
 .termux/
+.config/
+.bash_history
