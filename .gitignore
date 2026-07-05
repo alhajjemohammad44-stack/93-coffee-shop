@@ -9,3 +9,5 @@ data/
 .termux/
 .config/
 .bash_history
+.fly/
+push_repo.sh

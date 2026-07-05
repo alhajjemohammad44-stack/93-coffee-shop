@@ -1,93 +1,88 @@
 # ☕ 93 Coffee — Deployment Guide
 
-## 🚀 الخيار الأفضل: Replit.com (مجاني بالكامل)
-
-ما يحتاج كرت فيزا، ما يحتاج سيرفر، كل شيء شغال 24/7 مع SQLite.
+## 🚀 جاهز للنشر! اختر منصة:
 
 ---
 
-### 1️⃣ انشر على Replit (أسهل طريقة)
+### ✅ أسهل طريقة: Render (مجاني، انقر مرة واحدة)
 
-1. **سجل حساب** في https://replit.com (بريد إلكتروني فقط)
-2. **أنشئ مشروع جديد** → "Import from GitHub"
-3. **ارفع الكود على GitHub أولاً:**
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/alhajjemohammad44-stack/93-coffee-shop)
+
+1. **اضغط الزر أعلاه** ☝️
+2. **سجل حساب** في Render (جيميل فقط)
+3. **اختر "Free" plan**
+4. **اضغط "Create Web Service"**
+5. **انتظر 2-3 دقائق**... 🎉
+
+> التطبيق جاهز مع `render.yaml`، كل الإعدادات مضبوطة مسبقاً!
+
+---
+
+### ✅ بديل: Fly.io (مجاني، 3 VM + 3GB تخزين)
 
 ```bash
-# من جهازك (أو Termux):
-cd /data/data/com.termux/files/home
-git init
-git add .
-git commit -m "☕ 93 coffee shop"
-gh repo create 93coffee --public --push
-# أو ارفع على https://github.com/new
+# بعد تثبيت flyctl:
+flyctl auth login
+flyctl launch --from https://github.com/alhajjemohammad44-stack/93-coffee-shop
+flyctl deploy
 ```
-
-4. **في Replit**: اختار "Import from GitHub" وحط رابط المستودع
-5. **اضغط "Import"** — خلاص! الموقع شغال✨
-
-> **للحفاظ على الخدمة شغالة 24/7**: سجل في https://uptimerobot.com (مجاني) وحط رابط Replit تبعك ليراقبه كل 5 دقائق.
 
 ---
 
-### 2️⃣ بديل: Render.com (أيضاً مجاني)
+### ✅ بديل: Railway.app (مجاني)
 
-1. **سجل حساب** في https://render.com
-2. اربط GitHub
-3. اختر "New Web Service" → اختر المستودع
-4. إعدادات:
-   - **Name**: `93coffee`
-   - **Runtime**: Node
-   - **Build Command**: `npm install`
-   - **Start Command**: `node server.js`
-   - **Plan**: Free
-5. اضغط "Create Web Service"
-
-⚠️ **ملاحظة**: Render.com المجاني يعيد تشغيل التطبيق كل فترة، مما قد يفقد البيانات في SQLite. يُنصح باستخدام Replit.
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/alhajjemohammad44-stack/93-coffee-shop)
 
 ---
 
-### 3️⃣ بديل: Railway.app
+### ✅ بديل: Replit (مجاني بالكامل)
 
-1. https://railway.app → GitHub → New Project
-2. اختر المستودع
-3. هيضبط الإعدادات تلقائياً
-4. خلي Start Command: `node server.js`
+1. https://replit.com → **Create Repl** → **Import from GitHub**
+2. الصق رابط المستودع: `https://github.com/alhajjemohammad44-stack/93-coffee-shop`
+3. **Import** → الموقع شغال فوراً!
+4. للحفاظ عليه 24/7: استخدم https://uptimerobot.com (مجاني)
 
 ---
-
-## 🔧 ملفات المشروع
-
-```
-📁 93coffee/
-├── server.js          # الخادم الرئيسي (Express + SQLite + JWT + SSE)
-├── package.json       # إعدادات npm
-├── public/
-│   └── index.html     # الواجهة (64KB, كل شيء في ملف واحد)
-├── data/
-│   ├── shop.db        # قاعدة البيانات (SQLite)
-│   └── .gitkeep       # عشان git يحفظ المجلد
-└── .gitignore
-```
 
 ## 🔑 أكواد الدخول
 
-| الدور | الكود |
-|-------|-------|
-| 👑 المالك | `owner@123` |
-| 👨‍💼 مسؤول | `admin@123` |
+| الدور | الكود | الصلاحيات |
+|-------|-------|-----------|
+| 👑 **المالك** (Owner) | `owner@123` | إدارة المنتجات، الطلبات، الرسائل |
+| 👨‍💼 **مسؤول** (Admin) | `admin@123` | إدارة الطلبات، الرسائل |
 
-## 🌐 API
+## 🌐 API Reference
 
-| المسار | الطريقة | شرح |
-|--------|---------|------|
-| `POST /api/auth` | Auth | تسجيل دخول → JWT token |
-| `GET /api/products` | Products | قائمة المنتجات |
-| `POST /api/products` | Products | إضافة منتج (مالك) |
-| `DELETE /api/products/:id` | Products | حذف منتج (مالك) |
-| `POST /api/orders` | Orders | إنشاء طلب جديد |
-| `GET /api/orders` | Orders | كل الطلبات (تتطلب توكن) |
-| `PATCH /api/orders/:id/status` | Orders | تحديث الحالة (إدارة) |
-| `GET /api/orders/track/:id/:phone` | Track | تتبع طلب بالرقم والهاتف |
-| `POST /api/messages` | Messages | إرسال رسالة |
-| `GET /api/messages` | Messages | كل الرسائل (تتطلب توكن) |
-| `GET /api/events` | SSE | اتصال مباشر للتحديثات اللحظية |
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| POST | `/api/auth` | No | Login → JWT token |
+| GET | `/api/products` | No | List all products |
+| POST | `/api/products` | Yes (owner) | Add product |
+| DELETE | `/api/products/:id` | Yes (owner) | Delete product |
+| DELETE | `/api/products` | Yes (owner) | Delete all products |
+| POST | `/api/orders` | No | Create order |
+| GET | `/api/orders` | Yes (admin/owner) | List all orders |
+| PATCH | `/api/orders/:id/status` | Yes (admin/owner) | Update order status |
+| DELETE | `/api/orders/:id` | Yes (admin/owner) | Delete order |
+| GET | `/api/orders/track/:id/:phone` | No | Track order |
+| POST | `/api/messages` | No | Send message |
+| GET | `/api/messages` | Yes (admin/owner) | List all messages |
+| PATCH | `/api/messages/:id/read` | Yes (admin/owner) | Mark message read |
+| GET | `/api/events` | No | SSE real-time events |
+
+## 📁 Project Structure
+
+```
+server.js          # Express server with SQL.js + JWT + SSE
+public/index.html  # Single-page frontend (64KB)
+package.json       # Node.js config
+render.yaml        # Render deployment config
+Dockerfile         # Docker setup
+.gitignore
+DEPLOY.md
+```
+
+## ⚙️ Environment
+
+- `PORT` — Server port (default: `3456`, Render sets it to `10000`)
+- SQLite database auto-created at `data/shop.db`

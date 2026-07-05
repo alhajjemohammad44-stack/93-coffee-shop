@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: 93-coffee-shop
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/products
