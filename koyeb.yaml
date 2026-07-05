@@ -1,0 +1,14 @@
+name: 93-coffee-shop
+service:
+  name: web
+  port: 3456
+  docker:
+    dockerfile: Dockerfile
+  env:
+    - key: PORT
+      value: "3456"
+  scalings:
+    min: 1
+    max: 1
+  routes:
+    - path: /

@@ -11,3 +11,5 @@ data/
 .bash_history
 .fly/
 push_repo.sh
+pi-host/
+.npmrc
