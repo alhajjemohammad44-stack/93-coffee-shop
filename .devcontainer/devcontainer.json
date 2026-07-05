@@ -1,0 +1,11 @@
+{
+  "name": "93 Coffee Shop",
+  "postCreateCommand": "npm install && node server.js",
+  "forwardPorts": [3456],
+  "portsAttributes": {
+    "3456": {
+      "label": "93 Coffee Shop",
+      "onAutoForward": "openBrowser"
+    }
+  }
+}
